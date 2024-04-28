@@ -75,11 +75,11 @@ def create_zip_from_directory(directory_path, zip_file_name):
 
 # Example usage:
 if __name__ == "__main__":
-    directory_path = '/home/test1'
-    zip_file_name = '69245691256912691679.zip'
+	directory_path = '/home/test1'
+	zip_file_name = '69245691256912691679.zip'
 
-if create_zip_from_directory(directory_path, zip_file_name):
-    print(f"Zip file '{zip_file_name}' created successfully.")
-    upload_file_to_s3('69245691256912691679.zip', BUCKET_URL)
-else:
-    print("Failed to create zip file.")
+	#if create_zip_from_directory(directory_path, zip_file_name):
+	#	print(f"Zip file '{zip_file_name}' created successfully.")
+	#	upload_file_to_s3('69245691256912691679.zip', BUCKET_URL)
+	#else:
+	#	print("Failed to create zip file.")
