@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+import requests
 import smtplib
 import email.mime.text
 import os
@@ -10,7 +10,7 @@ from config1 import read_secret, GMAIL_ADDRESS, GMAIL_PASSWORD, BUCKET_URL, WEB_
 from email.mime.text import MIMEText
 
 
-def sendSMTP(to_email, subject, message):
+def sendSMTP_old(to_email, subject, message):
 	from_email = read_secret(GMAIL_ADDRESS)
 	pwd = read_secret(GMAIL_PASSWORD)
 	msg = MIMEText(message,'html')
@@ -42,3 +42,26 @@ def sendEmail(email, tid, scantype, success):
     sendSMTP(email, subject, message)
 
     return 1
+
+
+def sendSMTP(email, subject, message):
+    pwd = read_secret(GMAIL_PASSWORD)
+    api_url = f"{WEB_URL}/sendmail"
+    params = {
+        "email": email,
+        "subject": subject,
+        "msg": message,
+        "pwd": pwd
+    }
+    
+    try:
+        response = requests.get(api_url, params=params)
+        if response.status_code == 200:
+            return True
+        else:
+            print(f"Failed to send email. Server responded with status code: {response.status_code}")
+            return False
+    except requests.RequestException as e:
+        print(f"An error occurred while sending email: {e}")
+        return False
+
