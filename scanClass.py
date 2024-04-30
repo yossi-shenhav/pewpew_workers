@@ -5,7 +5,7 @@ import os
 import uuid
 import tldextract
 import urllib.parse
-from config1 import LIB_4_RESULTS
+from config1 import LIB_4_RESULTS, TIMEOUT_SEC
 from upload import upload_file_to_s3
 from smtpmail import sendEmail
 from firebase_reports import addNewScanData
@@ -62,7 +62,7 @@ class Scan:
 
 	
 	def run_command(self, command):
-		timeout_seconds = 9000
+		timeout_seconds = TIMEOUT_SEC
 		poll_interval = 5  # Check status every 5 seconds
 
 		start_time = time.time()
