@@ -12,6 +12,7 @@ class FfufScan(Scan):
 		
 	def format_result(self):
 		result = {}
+		found = False
 		if self.return_code == 0:					
 			try:
 				# Open the file and read the JSON data
@@ -26,8 +27,12 @@ class FfufScan(Scan):
 				if 'results' in data and len(data['results']) > 0:
 					for res in data['results']:
 						#print(res)
-						key = self.escapeFireBaseKey(res["url"])
-						result[key] = res['status']
+						if 'url' in res and len(res['url'])>0:
+							key = self.escapeFireBaseKey(res["url"])
+							result[key] = res['status']
+							found = True
+						if found == False:		
+							result['status'] = 'no results found'
 				else:
 					result['error'] = f'no results - check log file at {self.directory}/{self.log_file}'
 
