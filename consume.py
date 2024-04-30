@@ -48,7 +48,7 @@ def parse_message(message):
 			scan = SSLScan(url, tid, email)
 		case 'LFI':
 			#for now I use nmap
-			scans =  FNmapScan(url, tid, email)
+			scan =  FNmapScan(url, tid, email)
 		case 'hiddendir':
 			scan = FfufScan(url, tid, email)
 		case 'FullScan':
