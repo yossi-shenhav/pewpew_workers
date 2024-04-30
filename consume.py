@@ -33,7 +33,7 @@ def parse_message(message):
 	email = msg['type']	# we should use it to send notification
 	tid = msg['url2scan']    # transction id
 
-	scans = []
+	#scans = []
 	#ALLOWED_TYPES = ['XSS', 'subdomain', 'PortScan', 'LFI', 'SSLScan', 'FullScan', 'hiddendir', 'FasrPortScan']
 	match s_type:
 		case 'XSS':
@@ -53,7 +53,11 @@ def parse_message(message):
 			scan = FfufScan(url, tid, email)
 		case 'FullScan':
 			#I think this should be nuclei
-			scan = NucleiScan(url, tid, email)		
+			scan = NucleiScan(url, tid, email)
+		case _:
+			#default is nmap - for now...
+			print(f'\r\ndefault scan for type: {s_type}')
+			scan = FNmapScan(url, tid, email)		
 	   	
 	    #upload_to_firebase(tid, f'~/consume/{tid}/asset_finder.txt') # uploading file to Firebase.
 	    
