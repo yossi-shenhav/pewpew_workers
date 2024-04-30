@@ -9,7 +9,7 @@ import subprocess
 from scanClass import Scan
 from XSSScan import XSSScan
 from Subdomain import SubdomainsScan
-from FasrPortScan import FNmapScan
+from FasrPortScan import FNmapScan, NmapScan
 from LFIScan import LFIScan
 from SSLScan import SSLScan
 from NucleiScan import NucleiScan
