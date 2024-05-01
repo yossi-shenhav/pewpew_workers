@@ -22,51 +22,6 @@ from config1 import read_secret, RABBIT_MQ, NUM_WORKERS
 
 
 
-
-	
-
-def parse_message(message):
-	#print (message)
-	msg = json.loads(message)
-	s_type = msg['email']
-	url =msg['tid']
-	email = msg['type']	# we should use it to send notification
-	tid = msg['url2scan']    # transction id
-
-	#scans = []
-	#ALLOWED_TYPES = ['XSS', 'subdomain', 'PortScan', 'LFI', 'SSLScan', 'FullScan', 'hiddendir', 'FasrPortScan']
-	match s_type:
-		case 'XSS':
-			scan = XSSScan(url, tid, email)
-		case 'subdomain':
-			scan = SubdomainsScan(url, tid, email)
-		case 'PortScan':
-			scan = NmapScan(url, tid, email)
-		case 'FastPortScan':
-			scan = FNmapScan(url, tid, email)
-		case 'SSLScan':
-			scan = SSLScan(url, tid, email)
-		case 'LFI':
-			#for now I use nmap
-			scan =  FNmapScan(url, tid, email)
-		case 'hiddendir':
-			scan = FfufScan(url, tid, email)
-		case 'FullScan':
-			#I think this should be nuclei
-			scan = NucleiScan(url, tid, email)
-		case _:
-			#default is nmap - for now...
-			print(f'\r\ndefault scan for type: {s_type}')
-			scan = FNmapScan(url, tid, email)		
-	   	
-	    #upload_to_firebase(tid, f'~/consume/{tid}/asset_finder.txt') # uploading file to Firebase.
-	    
-	return scan
-
-
-
-
-
 def worker():
 	url = read_secret(RABBIT_MQ) 
 	params = pika.URLParameters(url)
@@ -94,6 +49,45 @@ def worker():
 		
 		ch.basic_ack(delivery_tag=method.delivery_tag)
 		print(f'mission accomplished. id:={scan.id}')
+
+	def parse_message(message):
+		#print (message)
+		msg = json.loads(message)
+		s_type = msg['email']
+		url =msg['tid']
+		email = msg['type']	# we should use it to send notification
+		tid = msg['url2scan']    # transction id
+
+		#scans = []
+		#ALLOWED_TYPES = ['XSS', 'subdomain', 'PortScan', 'LFI', 'SSLScan', 'FullScan', 'hiddendir', 'FasrPortScan']
+		match s_type:
+			case 'XSS':
+				scan = XSSScan(url, tid, email)
+			case 'subdomain':
+				scan = SubdomainsScan(url, tid, email)
+			case 'PortScan':
+				scan = NmapScan(url, tid, email)
+			case 'FastPortScan':
+				scan = FNmapScan(url, tid, email)
+			case 'SSLScan':
+				scan = SSLScan(url, tid, email)
+			case 'LFI':
+				#for now I use nmap
+				scan =  FNmapScan(url, tid, email)
+			case 'hiddendir':
+				scan = FfufScan(url, tid, email)
+			case 'FullScan':
+				#I think this should be nuclei
+				scan = NucleiScan(url, tid, email)
+			case _:
+				#default is nmap - for now...
+				print(f'\r\ndefault scan for type: {s_type}')
+				scan = FNmapScan(url, tid, email)		
+		   	
+		    #upload_to_firebase(tid, f'~/consume/{tid}/asset_finder.txt') # uploading file to Firebase.
+		    
+		return scan
+
 
 	channel.basic_consume(queue='nucleiscans', on_message_callback=callback, auto_ack=False)
 	print("Worker started, waiting for messages...")

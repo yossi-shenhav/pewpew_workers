@@ -6,7 +6,7 @@ import uuid
 import tldextract
 import urllib.parse
 from config1 import LIB_4_RESULTS, TIMEOUT_SEC
-from upload import upload_file_to_s3
+#from upload import upload_file_to_s3
 from smtpmail import sendEmail
 from firebase_reports import addNewScanData
 
