@@ -19,7 +19,7 @@ firebase_admin.initialize_app(cred, {
 
 
 
-#results = [ {"port": 25, "open": True}, {"port": 22, "open": True} ]
+
 def addNewScanData(scanid, scan_type, host, results):
     ref = db.reference(f'pewpew/reports/{scanid}')
     ref.child('hostname').set(host)

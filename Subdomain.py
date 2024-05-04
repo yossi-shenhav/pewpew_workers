@@ -26,7 +26,7 @@ class SubdomainsScan(Scan):
 
 	def getCommands(self):		
 		commands = []
-		domain = self.get_domain(self.target)
+		domain = self.get_domain(self.target) # out of subdomain
 		commands = [f'assetfinder --subs-only {domain} > {self.directory}/{self.result_file}']
 		return commands
 		

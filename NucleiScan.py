@@ -5,7 +5,7 @@ from config1 import WORD_LIST, USER_AGENT, RECURSION_DEPTH
 class NucleiScan(Scan):
 	scan_type = 'FullScan'
 	result_file = 'vuln.txt'
-	wordlist = WORD_LIST	
+	wordlist = WORD_LIST	#large
 		
 	def format_result(self):
 		result = {}

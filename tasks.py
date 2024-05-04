@@ -37,30 +37,7 @@ def exec_scan(scantype, tid, email, target ):
 			result  = subprocess.run(cmd, shell=True, timeout=1600) 
 			return_code = result.returncode
 			print(f'command {cmd} finished with code:={return_code}')
-			# Create a temporary file to store the output of ffuf
-			#with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
-			    #cmd = f"{command} > {temp_file.name}"
-			    #return_code  = subprocess.run(cmd, shell=True, timeout=1600)  # Add timeout here
-			    # Read the contents of the temporary file
-			    #temp_file.seek(0)
-			    #result = temp_file.read()
 
-			# Delete the temporary file
-			#os.unlink(temp_file.name)
-		
-		#if return_code == 0:
-		#	#command execution success
-		#	results = scan.format_result()
-		#else:
-		#	results["error"] = "Execution failed"
-
-
-		#scan.addNewScanData(results)
-		#print ('added to db')
-		#upload to S3
-		#success = True	#scan.uploadToS3()
-		#send mail
-		#scan.sendMail(success)
 		print(f'mission accomplished. id:={tid}')
 		retval = {
 			"scantype" : scantype,

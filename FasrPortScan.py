@@ -39,8 +39,6 @@ class FNmapScan(Scan):
 		return open_ports
 
 	def getCommands(self):
-		#I can implement in the subclass later - see if it works
-		
 		commands = []
 		commands = [f'nmap -F -oX {self.directory}/top100.xml {self.target}']	
 		return commands
@@ -82,8 +80,6 @@ class NmapScan(Scan):
 
 
 	def getCommands(self):
-		#I can implement in the subclass later - see if it works
-		
 		commands = []
 		commands = [f'nmap -oX {self.directory}/top1000.xml {self.target}']	
 		return commands

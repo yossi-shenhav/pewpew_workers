@@ -34,7 +34,7 @@ class FfufScan(Scan):
 						if found == False:		
 							result['status'] = 'no results found'
 				else:
-					result['error'] = f'no results - check log file at {self.directory}/{self.log_file}'
+					result['error'] = f'no results - check log file at {self.directory}'
 
 			except Exception as e:
 				print("An error occurred:", e) 
@@ -44,7 +44,9 @@ class FfufScan(Scan):
 		return result
 
 
-	def getCommands(self):		
+	def getCommands(self):
+		rnd_id = random.randint(1, 10000)
+		log_file = f'{rnd_id}.txt'		
 		commands = []
 		commands = [f'ffuf -u https://{self.target}/FUZZ -w {self.wordlist} -H \'{USER_AGENT}\' -mc 200,204,301,302,307,401,405,500 -recursion -recursion-depth {RECURSION_DEPTH} -json -o {self.directory}/{self.result_file} -debug-log {self.directory}/{self.log_file}']
 		return commands

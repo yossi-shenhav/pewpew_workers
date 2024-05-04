@@ -3,7 +3,6 @@ import os
 import zipfile
 from config1 import BUCKET_URL
 
-#BUCKET_URL = 'https://pewpewscanresults.s3.amazonwas.com/'
 
 def upload_zip_to_s3(tid):
     #create local zip file
@@ -35,16 +34,6 @@ def upload_file_to_s3(file_name, object_name, bucket_name = None):
         return False
     return True
 
-# Example usage:
-#file_to_upload = 'path_to_your_file.txt'
-#bucket_name = 'your_bucket_name'
-#s3_object_name = 'file.txt'  # Optional, if not provided, it will use the same name as file_to_upload
-
-#upload_successful = upload_file_to_s3(file_to_upload, bucket_name, s3_object_name)
-#if upload_successful:
-#    print("File uploaded successfully.")
-#else:
-#    print("Failed to upload file.")
 
 
 
@@ -73,13 +62,3 @@ def create_zip_from_directory(directory_path, zip_file_name):
         return False
     return True
 
-# Example usage:
-if __name__ == "__main__":
-	directory_path = '/home/test1'
-	zip_file_name = '69245691256912691679.zip'
-
-	#if create_zip_from_directory(directory_path, zip_file_name):
-	#	print(f"Zip file '{zip_file_name}' created successfully.")
-	#	upload_file_to_s3('69245691256912691679.zip', BUCKET_URL)
-	#else:
-	#	print("Failed to create zip file.")

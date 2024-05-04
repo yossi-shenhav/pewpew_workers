@@ -1,7 +1,7 @@
 from scanClass import Scan
 import json
 
-
+#
 class SSLScan(Scan):
 	scan_type = 'SSLScan'
 	result_file = 'ssl_result.json'
@@ -32,5 +32,7 @@ class SSLScan(Scan):
 	
 	def getCommands(self):		
 		commands = []
-		commands = [f'/home/parallels/Documents/testssl.sh/testssl.sh --jsonfile {self.directory}/{self.result_file} {self.target}']
+		#commands = [f'/home/parallels/Documents/testssl.sh/testssl.sh --jsonfile {self.directory}/{self.result_file} {self.target}']
+		commands = [f'testssl --jsonfile {self.directory}/{self.result_file} {self.target}']
+
 		return commands
