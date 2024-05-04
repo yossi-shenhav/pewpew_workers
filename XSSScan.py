@@ -1,4 +1,5 @@
 from scanClass import Scan
+import random
 
 class XSSScan(Scan):
 	scan_type = 'XSS'
@@ -34,9 +35,9 @@ class XSSScan(Scan):
 		
 	def getCommands(self):
 		#I can implement in the subclass later - see if it works
-		
+		rnd_id = random.randint(1, 10000)
 		commands = []
-		commands = [f'katana -u https://{self.target} -o {self.directory}/katana.txt', f'cat {self.directory}/katana.txt | dalfox pipe | tee {self.directory}/{self.result_file}']	
+		commands = [f'katana -u https://{self.target} -o {self.directory}/katana{rnd_id}.txt', f'cat {self.directory}/katana{rnd_id}.txt | dalfox pipe | tee {self.directory}/{self.result_file}']	
 		return commands
 
 

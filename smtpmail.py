@@ -36,7 +36,7 @@ def sendEmail(email, tid, scantype, success):
     if success:
         message = f'<p>Scan results can be found on {BUCKET_URL}/{tid}</p><p>short reprt can be found on {WEB_URL}/reports/{tid}/{scantype}</p>' 
     else:
-        print("{tid} Failed to upload file.")
+        print(f"{tid} Failed to upload file.")
         message = f'<p>Scan #{tid} did not suceeded </p>'
 
     sendSMTP(email, subject, message)
