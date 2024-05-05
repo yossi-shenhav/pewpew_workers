@@ -56,6 +56,26 @@ class Scan:
 		else:
 			return urllib.parse.quote(strval)
 		
+	def encodeFirebase_key(self, key):
+		invalid_chars = ['.', '#', '$', '[', ']', '/']  # Define invalid characters
+		encoding_map = {'.' : '_dot_', '#' : '_hash_', '$' : '_dollar_', '[' : '_leftbracket_', ']' : '_rightbracket_', '/' : '_slash_'}  # Define encoding map
+
+		# Replace invalid characters with their encoded representation
+		for char in invalid_chars:
+			key = key.replace(char, encoding_map[char])
+
+		return key
+
+	def decodeFirebase_key(self, key):
+		decoding_map = {'_dot_': '.', '_hash_': '#', '_dollar_': '$', '_leftbracket_': '[', '_rightbracket_': ']', '_slash_': '/'}  # Define decoding map
+
+		# Replace encoded representations with their original characters
+		for encoded_char, original_char in decoding_map.items():
+			key = key.replace(encoded_char, original_char)
+
+		return key
+
+
 
 
 	def sendMail(self, success):

@@ -22,7 +22,7 @@ class SSLScan(Scan):
 				# Print filtered elements
 				for elem in filtered_elements:
 					#print(elem)
-					result[elem['id']] = self.urlEncode(elem['finding'], True)
+					result[elem['id']] = self.encodeFirebase_key(elem['finding'], True)
 			except Exception as e:
 				print("An error occurred:", e) 
 				result['error'] = e.args[0]
