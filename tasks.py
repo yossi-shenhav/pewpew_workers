@@ -106,8 +106,7 @@ def createScanObj(scantype, tid, email, target):
 		case 'SSLScan':
 			scan = SSLScan(url, tid, email)
 		case 'LFI':
-			#for now I use nmap
-			scan =  FNmapScan(url, tid, email)
+			scan =  LFIScan(url, tid, email)
 		case 'hiddendir':
 			scan = FfufScan(url, tid, email)
 		case 'FullScan':
