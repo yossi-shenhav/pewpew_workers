@@ -27,8 +27,8 @@ def addNewScanData(scanid, scan_type, host, results):
 		ref.child(scan_type).set(results)
 		return 0 #success 
 	except Exception as e:
-		print (f'result:={results} --- host:={host} --- type:= {scan_type}')
-		print (f'error:={e}')
+		print (f'\r\nresult:={results} --- host:={host} --- type:= {scan_type}\r\n')
+		print (f'\r\nerror:={e}')
 		return -1
 
 
