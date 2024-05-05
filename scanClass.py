@@ -48,8 +48,14 @@ class Scan:
 	def format_result(self):
 		raise NotImplementedError("Subclasses must implement format_result method.")
 	
-	def urlEncode(self, str):
-		return urllib.parse.quote(url)
+	def urlEncode(self, str, safe=False):
+		#maybe we should always use safe=True
+		#since the default is false I left the default
+		if safe:
+			return urllib.parse.quote(url, safe="")
+		else:
+			return urllib.parse.quote(url)
+		
 
 
 	def sendMail(self, success):

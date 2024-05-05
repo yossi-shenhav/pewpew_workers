@@ -21,8 +21,8 @@ class SSLScan(Scan):
 				filtered_elements = [elem for elem in data if elem['severity'] not in ['INFO', 'OK'] or elem['id'] in ['grade_cap_reason_1', 'final_score', 'overall_grade', 'cipher_strength_score']]
 				# Print filtered elements
 				for elem in filtered_elements:
-					print(elem)
-					result[elem['id']] = elem['finding']
+					#print(elem)
+					result[elem['id']] = self.urlEncode(elem['finding'], True)
 			except Exception as e:
 				print("An error occurred:", e) 
 				result['error'] = e.args[0]
