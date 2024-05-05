@@ -21,10 +21,16 @@ firebase_admin.initialize_app(cred, {
 
 
 def addNewScanData(scanid, scan_type, host, results):
-    ref = db.reference(f'pewpew/reports/{scanid}')
-    ref.child('hostname').set(host)
-    ref.child(scan_type).set(results)
-    return 0 #success 
+	try:
+		ref = db.reference(f'pewpew/reports/{scanid}')
+		ref.child('hostname').set(host)
+		ref.child(scan_type).set(results)
+		return 0 #success 
+	except Exception as e:
+		print (f'result:={results} --- host:={host} --- type:= {scan_type}')
+		print (f'error:={e}')
+		return -1
+
 
 
 def getScanData(scanid, scantype):
