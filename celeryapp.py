@@ -1,9 +1,9 @@
 # celeryapp.py
 from celery import Celery
+from celeryconfig import *
 #from celery.exceptions import SoftTimeLimitExceeded
 from config1 import RABBIT_MQ, read_secret
 
-CELERY_IMPORTS = ("tasks", )
 
 broker_url = read_secret(RABBIT_MQ)
 #print(broker_url)
