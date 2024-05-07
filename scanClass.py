@@ -94,5 +94,9 @@ class Scan:
 		return addNewScanData(self.id, self.scan_type, self.target, results)
 
 
+	def save_string_to_file(self, string, name):
+		filename = f'{self.directory}/{name}'
+		with open(filename, 'w') as file:
+			file.write(string)
 
 

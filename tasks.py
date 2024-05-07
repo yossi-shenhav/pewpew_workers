@@ -67,7 +67,8 @@ def addScantoDB(message):
 	if success == True:
 		results = scan.format_result()
 	else:
-		results["error"] = "Execution failed"	
+		results["error"] = "Execution failed"
+	scan.save_string_to_file(results, 'results5.json')	
 	return_code = scan.addNewScanData(results)
 	
 	msg['ret_code'] = return_code
