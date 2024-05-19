@@ -24,6 +24,7 @@ def addNewScanData(scanid, scan_type, host, results):
 	try:
 		ref = db.reference(f'pewpew/reports/{scanid}')
 		ref.child('hostname').set(host)
+		print(f"nirza:\n\n{results}\n\n")
 		ref.child(scan_type).set(results)
 		return 0 #success 
 	except Exception as e:
