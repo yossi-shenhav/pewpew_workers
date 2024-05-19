@@ -35,7 +35,7 @@ class SSLScan(Scan):
 	
 	def getCommands(self):		
 		commands = []
-		commands = [f'/home/parallels/Documents/testssl.sh/testssl.sh --jsonfile {self.directory}/{self.result_file} {self.target}']
-		#commands = [f'testssl --jsonfile {self.directory}/{self.result_file} {self.target}']
+		#commands = [f'/home/parallels/Documents/testssl.sh/testssl.sh --jsonfile {self.directory}/{self.result_file} {self.target}']
+		commands = [f'testssl --jsonfile {self.directory}/{self.result_file} {self.target}']
 
 		return commands

@@ -31,9 +31,11 @@ def exec_scan(scantype, tid, email, target ):
 		return_code = 10
 		results = {}
 		scan = createScanObj(scantype, tid, email, target)
+		print('exec_scan started')
 		
 		commands = scan.getCommandsArr()
 		for cmd in commands:
+			print(f'cmd:={cmd}')
 			result  = subprocess.run(cmd, shell=True, timeout=1600) 
 			return_code = result.returncode
 			print(f'command {cmd} finished with code:={return_code}')
@@ -68,7 +70,8 @@ def addScantoDB(message):
 		results = scan.format_result()
 	else:
 		results["error"] = "Execution failed"
-	scan.save_string_to_file(results, 'results5.json')	
+	#scan.save_string_to_file(results, 'results5.json')
+	print(f"nirza1:\n\n{results}\n\n")	
 	return_code = scan.addNewScanData(results)
 	
 	msg['ret_code'] = return_code

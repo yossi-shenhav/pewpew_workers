@@ -32,17 +32,5 @@ def callback(ch, method, properties, body):
 
 
 if __name__ == "__main__":
-	url = read_secret(RABBIT_MQ) 
-	params = pika.URLParameters(url)
-
-	connection = pika.BlockingConnection(params)
-	channel = connection.channel()
-	channel.basic_qos(prefetch_count=1)
-	channel.queue_declare(queue='nucleiscans')
-
-	channel.basic_consume(queue='nucleiscans', on_message_callback=callback)
-	print("Worker started, waiting for messages...")
-	channel.start_consuming()
-
- 
-
+	
+	result = exec_scan.apply_async(args=["XSS", 1234, "nir.zadok@komodosec.com", "something.me"])
