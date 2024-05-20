@@ -1,12 +1,10 @@
 from scanClass import Scan
-from config1 import WORD_LIST, USER_AGENT, RECURSION_DEPTH
-
+from config1 import NUCLEI_PREFIX 
 
 class NucleiScan(Scan):
 	scan_type = 'FullScan'
 	result_file = 'vuln.txt'
-	wordlist = WORD_LIST	#large
-		
+
 	def format_result(self):
 		result = {}
 		if self.return_code == 0:
@@ -30,7 +28,8 @@ class NucleiScan(Scan):
 
 	def getCommands(self):		
 		commands = []
-		commands = [f'nuclei -u {self.target} -o {self.directory}/{self.result_file} -es info']
+		prefix = NUCLEI_PREFIX
+		commands = [f'nuclei -u {prefix}{self.target} -o {self.directory}/{self.result_file} -es info']
 		return commands
 
 
