@@ -17,12 +17,12 @@ class NucleiScan(Scan):
 				indx = 0
 				for ln in lines:
 					words = ln.split()
-					key = words[0]
-					value = ' '.join(words[1:])
+					key = self.encodeFirebase_key(words[0])
+					value = self.encodeFirebase_key(' '.join(words[1:]))
 					result[key] = value
 			except Exception as e:
 				print("An error occurred:", e) 
-				result['error'] = e.args[0]
+				result['error'] = self.encodeFirebase_key(e.args[0])
 		else:
 			result['error'] = 'scan failed'		
 		return result
