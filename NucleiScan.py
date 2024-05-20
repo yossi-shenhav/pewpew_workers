@@ -30,7 +30,7 @@ class NucleiScan(Scan):
 
 	def getCommands(self):		
 		commands = []
-		commands = [f'nuclei -t {self.target} -o {self.directory}/{self.result_file} -es info']
+		commands = [f'nuclei -u {self.target} -o {self.directory}/{self.result_file} -es info']
 		return commands
 
 
