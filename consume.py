@@ -16,6 +16,7 @@ def callback(ch, method, properties, body):
 	email = msg['email']	# we should use it to send notification
 	tid = msg['tid']    # transction id
 
+	ch.basic_ack(delivery_tag=method.delivery_tag)
 	#result = exec_scan.delay(s_type, tid, email, target)
 	result = exec_scan.apply_async(args=[s_type, tid, email, target])
 
@@ -23,8 +24,8 @@ def callback(ch, method, properties, body):
 	result2 = addScantoDB.apply_async(args=[result.get()]) # Passes result of task1 to task2
 	sendEmail.apply_async(args=[result2.get()])
 	
-	print(f'mission accomplished uuid={tid}')
-	ch.basic_ack(delivery_tag=method.delivery_tag)
+	print(f'mission accomplished uuid:={tid} target:={target}\n')
+	
 
 
 

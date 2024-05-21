@@ -16,7 +16,7 @@ from SSLScan import SSLScan
 from NucleiScan import NucleiScan
 from HiddenDirs import FfufScan
 from firebase_reports import addNewScanData
-
+from config1 import SCAN_TIME_LIMIT
 
 
 # List all registered tasks
@@ -25,7 +25,7 @@ from firebase_reports import addNewScanData
 
 
 # Define Celery task to process messages from the default queue
-@celery.task(soft_time_limit=1600)
+@celery.task(soft_time_limit=SCAN_TIME_LIMIT)
 def exec_scan(scantype, tid, email, target ):
 	try:
 		return_code = 10
@@ -36,7 +36,8 @@ def exec_scan(scantype, tid, email, target ):
 		commands = scan.getCommandsArr()
 		for cmd in commands:
 			print(f'cmd:={cmd}')
-			result  = subprocess.run(cmd, shell=True, timeout=1600) 
+			timeout = SCAN_TIME_LIMIT + 10 #probably we don't need timeout at all
+			result  = subprocess.run(cmd, shell=True, timeout=timeout) 
 			return_code = result.returncode
 			print(f'command {cmd} finished with code:={return_code}')
 
