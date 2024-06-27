@@ -1,5 +1,5 @@
 from scanClass import Scan
-from config1 import NUCLEI_PREFIX 
+# from config1 import NUCLEI_PREFIX 
 
 class NucleiScan(Scan):
 	scan_type = 'FullScan'

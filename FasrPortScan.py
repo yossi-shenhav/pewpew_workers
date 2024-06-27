@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 
 
 class FNmapScan(Scan):
+	print('whaaaaat')
 	scan_type = 'FastPortScan'
 	result_file = 'top100.xml'
 

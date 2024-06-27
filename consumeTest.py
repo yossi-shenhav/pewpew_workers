@@ -36,6 +36,7 @@ def test_start_message(body):
 	email = msg['email']	# we should use it to send notification
 	tid = msg['tid']    # transction id
 
+
 	# result = exec_scan.delay(s_type, tid, email, target)
 	result = exec_scan.apply_async(args=[s_type, tid, email, target])
 
@@ -54,9 +55,16 @@ if __name__ == "__main__":
 	import json
 
 	# Define your dictionary
-	body = {
+	body_XSS = {
 		'type': 'XSS',
 		'url2scan': 'xss.challenge.training.hacq.me/challenges/baby01.php',
+		'email': 'nirza@nirza.com',
+		'tid': 2
+	}
+
+	body = {
+		'type': 'shodan',
+		'url2scan': '20.204.225.50',
 		'email': 'nirza@nirza.com',
 		'tid': 2
 	}

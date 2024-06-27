@@ -9,6 +9,7 @@ from celeryapp import celery
 import json
 from scanClass import Scan
 from XSSScan import XSSScan
+from ShodanScan import ShodanScan
 from Subdomain import SubdomainsScan
 from FasrPortScan import FNmapScan, NmapScan
 from LFIScan import LFIScan
@@ -16,7 +17,9 @@ from SSLScan import SSLScan
 from NucleiScan import NucleiScan
 from HiddenDirs import FfufScan
 from firebase_reports import addNewScanData
-from config1 import SCAN_TIME_LIMIT
+# from config1 import SCAN_TIME_LIMIT
+
+SCAN_TIME_LIMIT = 1600
 
 
 # List all registered tasks
@@ -30,6 +33,7 @@ def exec_scan(scantype, tid, email, target ):
 	try:
 		return_code = 10
 		results = {}
+		print(f'\n\nThis is: {scantype}\n\n')
 		scan = createScanObj(scantype, tid, email, target)
 		print('exec_scan started')
 		
@@ -98,8 +102,12 @@ def sendEmail(message):
 
 def createScanObj(scantype, tid, email, target):
 	#print (message)
+	print('AAAAAAAAAA')
 	url = target
+	print(f"\n\nThe scantype is: {scantype}\n\n")
 	match scantype:
+		case 'shodan':
+			scan = ShodanScan(url, tid, email)
 		case 'XSS':
 			scan = XSSScan(url, tid, email)
 		case 'subdomain':
@@ -119,6 +127,7 @@ def createScanObj(scantype, tid, email, target):
 			scan = NucleiScan(url, tid, email)
 		case _:
 			#default is nmap - for now...
+			print('BBBBBBBBBBB')
 			print(f'\r\ndefault scan for type: {scantype}')
 			scan = FNmapScan(url, tid, email)		
 	   	
