@@ -14,12 +14,13 @@ class Scan:
 	scan_type = None
 	result_file = None
 	
-	def __init__(self, target, scanid, email):
+	def __init__(self, target, scanid, email, pos=None):
 		if self.scan_type is None:
 			raise NotImplementedError("Subclasses must implement scan_type")	
 		if self.result_file is None:
 			raise NotImplementedError("Subclasses must implement result_file")	
-			
+		
+		self.position = pos
 		self.return_code = 0 #not used anymore, but did not want to change all derived classes
 		self.id = scanid
 		self.target = target
