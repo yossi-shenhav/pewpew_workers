@@ -4,7 +4,7 @@ import pika
 import json #to parse the message - did not write the code here
 from config1 import read_secret, RABBIT_MQ, NUM_WORKERS, RABBIT_MQ_LOCAL
 from celeryapp import celery
-from tasks import exec_scan, addScantoDB, sendEmail
+from tasks import exec_scan, addScantoDB, sendEmail, process_in_batches
 
 
 def callback(ch, method, properties, body):
@@ -15,6 +15,7 @@ def callback(ch, method, properties, body):
 	target =msg['url2scan']
 	email = msg['email']	# we should use it to send notification
 	tid = msg['tid']    # transction id
+
 
 	#result = exec_scan.delay(s_type, tid, email, target)
 	result = exec_scan.apply_async(args=[s_type, tid, email, target])
@@ -37,11 +38,13 @@ def test_start_message(body):
 	tid = msg['tid']    # transction id
 
 
+	result = process_in_batches(s_type, tid, email, target)
+
 	# result = exec_scan.delay(s_type, tid, email, target)
-	result = exec_scan.apply_async(args=[s_type, tid, email, target])
+	# result = exec_scan.apply_async(args=[s_type, tid, email, target])
 
 	# Chain task2 and task3 to start after task1 completes
-	result2 = addScantoDB.apply_async(args=[result.get()]) # Passes result of task1 to task2
+	# result2 = addScantoDB.apply_async(args=[result.get()]) # Passes result of task1 to task2
 	# sendEmail.apply_async(args=[result2.get()])
 	
 
@@ -64,7 +67,7 @@ if __name__ == "__main__":
 
 	body = {
 		'type': 'shodan',
-		'url2scan': '20.204.225.50',
+		'url2scan': ["20.204.225.50","4.224.127.227","20.204.224.250"],
 		'email': 'nirza@nirza.com',
 		'tid': 2
 	}

@@ -18,6 +18,7 @@ from NucleiScan import NucleiScan
 from HiddenDirs import FfufScan
 from firebase_reports import addNewScanData
 # from config1 import SCAN_TIME_LIMIT
+from celery import group
 
 SCAN_TIME_LIMIT = 1600
 
@@ -29,12 +30,12 @@ SCAN_TIME_LIMIT = 1600
 
 # Define Celery task to process messages from the default queue
 @celery.task(soft_time_limit=SCAN_TIME_LIMIT)
-def exec_scan(scantype, tid, email, target ):
+def exec_scan(scantype, tid, email, target , id=None):
 	try:
 		return_code = 10
 		results = {}
 		print(f'\n\nThis is: {scantype}\n\n')
-		scan = createScanObj(scantype, tid, email, target)
+		scan = createScanObj(scantype, tid, email, target, id)
 		print('exec_scan started')
 		
 		commands = scan.getCommandsArr()
@@ -57,6 +58,17 @@ def exec_scan(scantype, tid, email, target ):
 	except SoftTimeLimitExceeded:
 		print ('timeout exceed') 
 	
+def process_in_batches(scantype, tid, email, targets, batch_size=50):
+    batches = [targets[i:i + batch_size] for i in range(0, len(targets), batch_size)]
+    id = 0
+    for batch_num, batch in enumerate(batches):
+        id = id + 1
+        print(f"Processing batch {batch_num + 1}/{len(batches)} with {len(batch)} targets...")
+        batch_tasks = group(exec_scan.s(scantype, tid, email, target, id+tempId) for tempId, target in enumerate(batch))
+        result = batch_tasks.apply_async()
+        result.join()  # Wait for the batch to complete before moving to the next batch
+        print(f"Batch {batch_num + 1}/{len(batches)} completed.")
+
 
 
 @celery.task()
@@ -100,14 +112,14 @@ def sendEmail(message):
 
 
 
-def createScanObj(scantype, tid, email, target):
+def createScanObj(scantype, tid, email, target, id):
 	#print (message)
 	print('AAAAAAAAAA')
 	url = target
 	print(f"\n\nThe scantype is: {scantype}\n\n")
 	match scantype:
 		case 'shodan':
-			scan = ShodanScan(url, tid, email)
+			scan = ShodanScan(url, tid, email, id)
 		case 'XSS':
 			scan = XSSScan(url, tid, email)
 		case 'subdomain':
